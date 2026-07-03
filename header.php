@@ -15,7 +15,22 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <a class="skip-link" href="#content"><?php esc_html_e( 'Skip to content', 'ocean-booking' ); ?></a>
-<header class="site-header">
+<div class="top-info-bar">
+	<div class="container top-info-inner">
+		<div class="top-info-items">
+			<span><?php esc_html_e( '24/7 Support', 'ocean-booking' ); ?></span>
+			<span><?php esc_html_e( 'Secure Payments', 'ocean-booking' ); ?></span>
+			<span><?php esc_html_e( 'Instant Confirmation', 'ocean-booking' ); ?></span>
+			<span><?php esc_html_e( 'Multilingual', 'ocean-booking' ); ?></span>
+		</div>
+		<div class="top-socials" aria-label="<?php esc_attr_e( 'Social links', 'ocean-booking' ); ?>">
+			<a href="#" aria-label="<?php esc_attr_e( 'Instagram', 'ocean-booking' ); ?>">IG</a>
+			<a href="#" aria-label="<?php esc_attr_e( 'Facebook', 'ocean-booking' ); ?>">FB</a>
+			<a href="#" aria-label="<?php esc_attr_e( 'YouTube', 'ocean-booking' ); ?>">YT</a>
+		</div>
+	</div>
+</div>
+<header class="site-header is-transparent">
 	<div class="container header-inner">
 		<a class="brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">
 			<?php if ( has_custom_logo() ) : ?>
@@ -48,7 +63,7 @@
 			}
 			?>
 		</div>
-		<a class="header-cta" href="<?php echo esc_url( get_post_type_archive_link( 'event' ) ); ?>"><?php esc_html_e( 'Tickets', 'ocean-booking' ); ?></a>
+		<a class="header-cta" href="<?php echo esc_url( get_post_type_archive_link( 'event' ) ); ?>"><?php esc_html_e( 'Book Now', 'ocean-booking' ); ?></a>
 	</div>
 </header>
 <main id="content" class="site-main">

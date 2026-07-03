@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'OBT_VERSION', '1.0.0' );
+define( 'OBT_VERSION', '1.1.0' );
 
 function obt_setup() {
 	load_theme_textdomain( 'ocean-booking', get_template_directory() . '/languages' );
@@ -58,15 +58,20 @@ function obt_breadcrumbs() {
 function obt_menu_fallback( $args = array() ) {
 	$theme_location = isset( $args['theme_location'] ) ? $args['theme_location'] : 'primary';
 	$links = array(
+		array( __( 'Home', 'ocean-booking' ), home_url( '/' ) ),
 		array( __( 'Tickets', 'ocean-booking' ), get_post_type_archive_link( 'event' ) ),
+		array( __( 'Destinations', 'ocean-booking' ), get_post_type_archive_link( 'event' ) ),
+		array( __( 'Experiences', 'ocean-booking' ), get_post_type_archive_link( 'event' ) ),
 		array( __( 'Guides', 'ocean-booking' ), get_post_type_archive_link( 'guide' ) ),
-		array( __( 'FAQ', 'ocean-booking' ), home_url( '/faq/' ) ),
+		array( __( 'About', 'ocean-booking' ), home_url( '/about/' ) ),
 		array( __( 'Contact', 'ocean-booking' ), home_url( '/contact/' ) ),
 	);
 
 	if ( 'footer' === $theme_location ) {
+		$links[] = array( __( 'FAQ', 'ocean-booking' ), home_url( '/faq/' ) );
 		$links[] = array( __( 'Privacy Policy', 'ocean-booking' ), home_url( '/privacy-policy/' ) );
 		$links[] = array( __( 'Terms', 'ocean-booking' ), home_url( '/terms/' ) );
+		$links[] = array( __( 'Cookie Policy', 'ocean-booking' ), home_url( '/cookie-policy/' ) );
 	}
 
 	echo '<ul>';
@@ -134,6 +139,11 @@ function obt_theme_text( $key, $default ) {
 	return get_theme_mod( 'obt_' . $key, $default );
 }
 
+function obt_theme_image( $key, $default = '' ) {
+	$image = get_theme_mod( 'obt_' . $key );
+	return $image ? $image : $default;
+}
+
 function obt_customize_register( $wp_customize ) {
 	$wp_customize->add_section(
 		'obt_home',
@@ -147,6 +157,8 @@ function obt_customize_register( $wp_customize ) {
 		'hero_eyebrow'       => __( 'Ocean tickets and guided experiences', 'ocean-booking' ),
 		'hero_title'         => __( 'Book unforgettable ocean experiences', 'ocean-booking' ),
 		'hero_body'          => __( 'Browse premium tickets, compare details, and continue to a secure provider checkout from any device.', 'ocean-booking' ),
+		'hero_review'        => __( 'A seamless way to discover, compare, and book memorable travel experiences.', 'ocean-booking' ),
+		'hero_review_name'   => __( 'Verified traveler', 'ocean-booking' ),
 		'featured_title'     => __( 'Featured tickets', 'ocean-booking' ),
 		'featured_body'      => __( 'Highlight your best-selling experiences and seasonal offers from the WordPress event manager.', 'ocean-booking' ),
 		'upcoming_title'     => __( 'Upcoming departures', 'ocean-booking' ),
@@ -163,6 +175,31 @@ function obt_customize_register( $wp_customize ) {
 		'newsletter_body'    => __( 'Invite visitors to subscribe for new departures, seasonal offers, and destination guides.', 'ocean-booking' ),
 		'contact_cta_title'  => __( 'Questions before booking?', 'ocean-booking' ),
 		'contact_cta_body'   => __( 'Offer fast support through contact forms, WhatsApp, email, or your preferred customer service channel.', 'ocean-booking' ),
+		'destination_1_title' => __( 'Island Escapes', 'ocean-booking' ),
+		'destination_1_count' => __( '12 experiences', 'ocean-booking' ),
+		'destination_2_title' => __( 'Coastal Tours', 'ocean-booking' ),
+		'destination_2_count' => __( '18 experiences', 'ocean-booking' ),
+		'destination_3_title' => __( 'Harbor Nights', 'ocean-booking' ),
+		'destination_3_count' => __( '9 experiences', 'ocean-booking' ),
+		'review_1_text'      => __( 'The site makes it simple to compare experiences, check details, and book on mobile without confusion.', 'ocean-booking' ),
+		'review_1_name'      => __( 'Maya R.', 'ocean-booking' ),
+		'review_1_country'   => __( 'Germany', 'ocean-booking' ),
+		'review_2_text'      => __( 'Beautiful presentation, clear meeting information, and a checkout path that feels trustworthy.', 'ocean-booking' ),
+		'review_2_name'      => __( 'Luca P.', 'ocean-booking' ),
+		'review_2_country'   => __( 'Italy', 'ocean-booking' ),
+		'review_3_text'      => __( 'Exactly the kind of polished ticket experience guests expect from a premium travel brand.', 'ocean-booking' ),
+		'review_3_name'      => __( 'Sofia M.', 'ocean-booking' ),
+		'review_3_country'   => __( 'Spain', 'ocean-booking' ),
+		'gallery_1_label'    => __( 'Ocean tours', 'ocean-booking' ),
+		'gallery_2_label'    => __( 'Beach clubs', 'ocean-booking' ),
+		'gallery_3_label'    => __( 'Boat activities', 'ocean-booking' ),
+		'gallery_4_label'    => __( 'Travel moments', 'ocean-booking' ),
+		'faq_1_question'     => __( 'Can I replace the images?', 'ocean-booking' ),
+		'faq_1_answer'       => __( 'Yes. The hero, destination, gallery, and contact images are editable in the WordPress Customizer.', 'ocean-booking' ),
+		'faq_2_question'     => __( 'Where do tickets come from?', 'ocean-booking' ),
+		'faq_2_answer'       => __( 'Tickets are managed as Events in WordPress and can connect to your real booking provider.', 'ocean-booking' ),
+		'faq_3_question'     => __( 'Does this support multiple languages?', 'ocean-booking' ),
+		'faq_3_answer'       => __( 'Yes. All theme strings are translation-ready and the structure works with Polylang, WPML, or TranslatePress.', 'ocean-booking' ),
 	);
 
 	foreach ( $settings as $key => $default ) {
@@ -170,7 +207,21 @@ function obt_customize_register( $wp_customize ) {
 		$wp_customize->add_control( 'obt_' . $key, array( 'section' => 'obt_home', 'label' => ucwords( str_replace( '_', ' ', $key ) ), 'type' => 'text' ) );
 	}
 
-	$wp_customize->add_setting( 'obt_hero_image', array( 'sanitize_callback' => 'esc_url_raw' ) );
-	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'obt_hero_image', array( 'section' => 'obt_home', 'label' => __( 'Hero background image', 'ocean-booking' ) ) ) );
+	$image_settings = array(
+		'hero_image'        => __( 'Hero background image', 'ocean-booking' ),
+		'destination_1_img' => __( 'Destination image 1', 'ocean-booking' ),
+		'destination_2_img' => __( 'Destination image 2', 'ocean-booking' ),
+		'destination_3_img' => __( 'Destination image 3', 'ocean-booking' ),
+		'gallery_1_img'     => __( 'Gallery image 1', 'ocean-booking' ),
+		'gallery_2_img'     => __( 'Gallery image 2', 'ocean-booking' ),
+		'gallery_3_img'     => __( 'Gallery image 3', 'ocean-booking' ),
+		'gallery_4_img'     => __( 'Gallery image 4', 'ocean-booking' ),
+		'contact_bg_img'    => __( 'Contact CTA background image', 'ocean-booking' ),
+	);
+
+	foreach ( $image_settings as $key => $label ) {
+		$wp_customize->add_setting( 'obt_' . $key, array( 'sanitize_callback' => 'esc_url_raw' ) );
+		$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'obt_' . $key, array( 'section' => 'obt_home', 'label' => $label ) ) );
+	}
 }
 add_action( 'customize_register', 'obt_customize_register' );
