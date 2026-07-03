@@ -55,6 +55,30 @@ function obt_breadcrumbs() {
 	echo '<nav class="breadcrumbs" aria-label="' . esc_attr__( 'Breadcrumbs', 'ocean-booking' ) . '"><a href="' . esc_url( home_url( '/' ) ) . '">' . esc_html__( 'Home', 'ocean-booking' ) . '</a><span>/</span><span>' . esc_html( wp_get_document_title() ) . '</span></nav>';
 }
 
+function obt_menu_fallback( $args = array() ) {
+	$theme_location = isset( $args['theme_location'] ) ? $args['theme_location'] : 'primary';
+	$links = array(
+		array( __( 'Tickets', 'ocean-booking' ), get_post_type_archive_link( 'event' ) ),
+		array( __( 'Guides', 'ocean-booking' ), get_post_type_archive_link( 'guide' ) ),
+		array( __( 'FAQ', 'ocean-booking' ), home_url( '/faq/' ) ),
+		array( __( 'Contact', 'ocean-booking' ), home_url( '/contact/' ) ),
+	);
+
+	if ( 'footer' === $theme_location ) {
+		$links[] = array( __( 'Privacy Policy', 'ocean-booking' ), home_url( '/privacy-policy/' ) );
+		$links[] = array( __( 'Terms', 'ocean-booking' ), home_url( '/terms/' ) );
+	}
+
+	echo '<ul>';
+	foreach ( $links as $link ) {
+		if ( ! $link[1] ) {
+			continue;
+		}
+		echo '<li><a href="' . esc_url( $link[1] ) . '">' . esc_html( $link[0] ) . '</a></li>';
+	}
+	echo '</ul>';
+}
+
 function obt_meta_description() {
 	if ( is_singular( 'event' ) && function_exists( 'obc_get_event_meta' ) ) {
 		$description = obc_get_event_meta( get_the_ID(), 'meta_description' );
@@ -121,15 +145,24 @@ function obt_customize_register( $wp_customize ) {
 
 	$settings = array(
 		'hero_eyebrow'       => __( 'Ocean tickets and guided experiences', 'ocean-booking' ),
-		'hero_body'          => __( 'Discover bookable coastal experiences with transparent details, real availability, and a smooth checkout handoff.', 'ocean-booking' ),
+		'hero_title'         => __( 'Book unforgettable ocean experiences', 'ocean-booking' ),
+		'hero_body'          => __( 'Browse premium tickets, compare details, and continue to a secure provider checkout from any device.', 'ocean-booking' ),
+		'featured_title'     => __( 'Featured tickets', 'ocean-booking' ),
+		'featured_body'      => __( 'Highlight your best-selling experiences and seasonal offers from the WordPress event manager.', 'ocean-booking' ),
+		'upcoming_title'     => __( 'Upcoming departures', 'ocean-booking' ),
+		'popular_title'      => __( 'Popular tickets', 'ocean-booking' ),
+		'destinations_title' => __( 'Explore destinations', 'ocean-booking' ),
+		'destinations_body'  => __( 'Organize tickets by locations, harbors, beaches, cities, or regions.', 'ocean-booking' ),
 		'why_title'          => __( 'Why book with us', 'ocean-booking' ),
-		'why_body'           => __( 'Clear meeting points, real provider checkout, translated pages, and fast support before your trip.', 'ocean-booking' ),
-		'secure_title'       => __( 'Secure checkout', 'ocean-booking' ),
-		'secure_body'        => __( 'Payments stay with your existing ticketing provider.', 'ocean-booking' ),
-		'guidance_title'     => __( 'Local guidance', 'ocean-booking' ),
-		'guidance_body'      => __( 'Guides and event content are editable for each language.', 'ocean-booking' ),
+		'why_body'           => __( 'Give guests the details they need before booking, with real checkout integration and translated content.', 'ocean-booking' ),
+		'how_title'          => __( 'How booking works', 'ocean-booking' ),
+		'how_body'           => __( 'A simple three-step flow keeps guests confident from discovery to confirmation.', 'ocean-booking' ),
+		'reviews_title'      => __( 'Guest confidence, built in', 'ocean-booking' ),
+		'faq_title'          => __( 'Booking questions', 'ocean-booking' ),
+		'newsletter_title'   => __( 'Get ticket updates', 'ocean-booking' ),
+		'newsletter_body'    => __( 'Invite visitors to subscribe for new departures, seasonal offers, and destination guides.', 'ocean-booking' ),
 		'contact_cta_title'  => __( 'Questions before booking?', 'ocean-booking' ),
-		'contact_cta_body'   => __( 'Use the contact form, WhatsApp link, or FAQ pages managed in WordPress.', 'ocean-booking' ),
+		'contact_cta_body'   => __( 'Offer fast support through contact forms, WhatsApp, email, or your preferred customer service channel.', 'ocean-booking' ),
 	);
 
 	foreach ( $settings as $key => $default ) {
