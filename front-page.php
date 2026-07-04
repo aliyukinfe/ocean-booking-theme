@@ -81,6 +81,7 @@ $gallery = array(
 	array( $images['gallery_4'], obt_theme_text( 'gallery_4_label', __( 'Travel moments', 'ocean-booking' ) ) ),
 );
 ?>
+<!-- ocean-booking-homepage:premium-v4 -->
 <section class="hero hero-premium hero-fullscreen"<?php echo $hero_style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="hero-orbit hero-orbit-one" aria-hidden="true"></div>
 	<div class="hero-orbit hero-orbit-two" aria-hidden="true"></div>

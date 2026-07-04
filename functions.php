@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'OBT_VERSION', '1.1.3' );
+define( 'OBT_VERSION', '1.1.4' );
 
 function obt_setup() {
 	load_theme_textdomain( 'ocean-booking', get_template_directory() . '/languages' );
@@ -28,8 +28,13 @@ function obt_setup() {
 add_action( 'after_setup_theme', 'obt_setup' );
 
 function obt_assets() {
-	wp_enqueue_style( 'obt-main', get_template_directory_uri() . '/assets/css/main.css', array(), OBT_VERSION );
-	wp_enqueue_script( 'obt-main', get_template_directory_uri() . '/assets/js/main.js', array(), OBT_VERSION, true );
+	$main_css_version   = file_exists( get_template_directory() . '/assets/css/main.css' ) ? (string) filemtime( get_template_directory() . '/assets/css/main.css' ) : OBT_VERSION;
+	$mobile_css_version = file_exists( get_template_directory() . '/assets/css/premium-mobile.css' ) ? (string) filemtime( get_template_directory() . '/assets/css/premium-mobile.css' ) : OBT_VERSION;
+	$main_js_version    = file_exists( get_template_directory() . '/assets/js/main.js' ) ? (string) filemtime( get_template_directory() . '/assets/js/main.js' ) : OBT_VERSION;
+
+	wp_enqueue_style( 'obt-main', get_template_directory_uri() . '/assets/css/main.css', array(), $main_css_version );
+	wp_enqueue_style( 'obt-premium-mobile', get_template_directory_uri() . '/assets/css/premium-mobile.css', array( 'obt-main' ), $mobile_css_version );
+	wp_enqueue_script( 'obt-main', get_template_directory_uri() . '/assets/js/main.js', array(), $main_js_version, true );
 }
 add_action( 'wp_enqueue_scripts', 'obt_assets' );
 
