@@ -500,3 +500,41 @@ input:focus, textarea:focus, select:focus, button:focus-visible, a:focus-visible
 	.stats-float { grid-template-columns: 1fr; }
 	.stats-float div { min-height: 74px; }
 }
+
+@media (max-width: 820px) {
+	.hero:not(.hero-fullscreen) {
+		display: block;
+		min-height: auto;
+		overflow: visible;
+	}
+	.hero:not(.hero-fullscreen) .hero-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 24px;
+		align-items: start;
+		min-height: 0;
+		padding: 108px 0 56px;
+	}
+	.hero:not(.hero-fullscreen) .hero-copy h1,
+	.hero:not(.hero-fullscreen) h1 {
+		max-width: 100%;
+		font-size: 2.38rem;
+		line-height: 1.08;
+		margin: 0 0 18px;
+		overflow-wrap: anywhere;
+	}
+	.hero:not(.hero-fullscreen) .hero-copy p,
+	.hero:not(.hero-fullscreen) p {
+		max-width: 100%;
+		font-size: 1rem;
+		line-height: 1.65;
+	}
+	.hero:not(.hero-fullscreen) .hero-panel,
+	.hero:not(.hero-fullscreen) .premium-panel {
+		width: 100%;
+		padding: 18px;
+	}
+	.section-overlap {
+		padding-top: 52px;
+	}
+}

@@ -79,6 +79,53 @@
 		background-size: cover !important;
 	}
 
+	/* Legacy homepage hero currently seen on some deployments. */
+	.hero:not(.hero-fullscreen) {
+		display: block !important;
+		min-height: auto !important;
+		padding-top: 0 !important;
+		overflow: visible !important;
+		background-position: center !important;
+		background-size: cover !important;
+	}
+
+	.hero:not(.hero-fullscreen)::before {
+		background: linear-gradient(180deg, rgba(4, 21, 38, .72), rgba(4, 42, 72, .94)) !important;
+	}
+
+	.hero:not(.hero-fullscreen) .hero-grid {
+		display: grid !important;
+		grid-template-columns: 1fr !important;
+		gap: 24px !important;
+		align-items: start !important;
+		min-height: 0 !important;
+		padding: 108px 0 56px !important;
+	}
+
+	.hero:not(.hero-fullscreen) .hero-copy h1,
+	.hero:not(.hero-fullscreen) h1 {
+		max-width: 100% !important;
+		font-size: 2.38rem !important;
+		line-height: 1.08 !important;
+		margin: 0 0 18px !important;
+		overflow-wrap: anywhere !important;
+	}
+
+	.hero:not(.hero-fullscreen) .hero-copy p,
+	.hero:not(.hero-fullscreen) p {
+		max-width: 100% !important;
+		font-size: 1rem !important;
+		line-height: 1.65 !important;
+	}
+
+	.hero:not(.hero-fullscreen) .hero-panel,
+	.hero:not(.hero-fullscreen) .premium-panel {
+		width: 100% !important;
+		padding: 18px !important;
+		background: rgba(255, 255, 255, .12) !important;
+		border: 1px solid rgba(255, 255, 255, .24) !important;
+	}
+
 	.hero.hero-fullscreen::before {
 		background: linear-gradient(180deg, rgba(4, 21, 38, .74), rgba(4, 42, 72, .94)) !important;
 	}
@@ -177,6 +224,11 @@
 		padding: 56px 0 !important;
 	}
 
+	.section-overlap,
+	.section:first-of-type:not(.hero) {
+		padding-top: 52px !important;
+	}
+
 	.section-heading h2,
 	.page-hero h1,
 	.event-hero h1 {
@@ -184,6 +236,7 @@
 	}
 
 	.premium-card-grid,
+	.card-grid,
 	.benefit-grid,
 	.steps-grid,
 	.faq-newsletter-grid,
@@ -196,6 +249,17 @@
 
 	.event-card-image {
 		aspect-ratio: 1.08 !important;
+	}
+
+	.empty-state {
+		padding: 28px 18px !important;
+		text-align: left !important;
+	}
+
+	.empty-state h3,
+	.empty-state p {
+		margin-left: 0 !important;
+		margin-right: 0 !important;
 	}
 
 	.card-actions {
@@ -233,6 +297,11 @@
 }
 
 @media (max-width: 420px) {
+	.hero:not(.hero-fullscreen) .hero-copy h1,
+	.hero:not(.hero-fullscreen) h1 {
+		font-size: 2.08rem !important;
+	}
+
 	.hero-fullscreen .hero-copy h1 {
 		font-size: 2.28rem !important;
 	}

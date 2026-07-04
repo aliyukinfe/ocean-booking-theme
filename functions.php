@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'OBT_VERSION', '1.1.4' );
+define( 'OBT_VERSION', '1.1.5' );
 
 function obt_setup() {
 	load_theme_textdomain( 'ocean-booking', get_template_directory() . '/languages' );
@@ -34,9 +34,14 @@ function obt_assets() {
 
 	wp_enqueue_style( 'obt-main', get_template_directory_uri() . '/assets/css/main.css', array(), $main_css_version );
 	wp_enqueue_style( 'obt-premium-mobile', get_template_directory_uri() . '/assets/css/premium-mobile.css', array( 'obt-main' ), $mobile_css_version );
+	wp_add_inline_style( 'obt-premium-mobile', obt_critical_mobile_css() );
 	wp_enqueue_script( 'obt-main', get_template_directory_uri() . '/assets/js/main.js', array(), $main_js_version, true );
 }
 add_action( 'wp_enqueue_scripts', 'obt_assets' );
+
+function obt_critical_mobile_css() {
+	return '@media (max-width:820px){.site-header,.site-header.is-transparent,.site-header.has-scrolled{position:sticky!important;top:0!important;background:rgba(255,255,255,.98)!important}.hero:not(.hero-fullscreen){display:block!important;min-height:auto!important;overflow:visible!important}.hero:not(.hero-fullscreen) .hero-grid{display:grid!important;grid-template-columns:1fr!important;gap:24px!important;padding:108px 0 56px!important;min-height:0!important;align-items:start!important}.hero:not(.hero-fullscreen) h1,.hero:not(.hero-fullscreen) .hero-copy h1{font-size:2.38rem!important;line-height:1.08!important;margin:0 0 18px!important;max-width:100%!important;overflow-wrap:anywhere!important}.hero-actions{display:grid!important;grid-template-columns:1fr!important;gap:10px!important}.hero-actions .button{width:100%!important;min-height:52px!important}.section-overlap{padding-top:52px!important}.card-grid,.premium-card-grid{display:grid!important;grid-template-columns:1fr!important;gap:16px!important}}@media (max-width:420px){.hero:not(.hero-fullscreen) h1,.hero:not(.hero-fullscreen) .hero-copy h1{font-size:2.08rem!important}}';
+}
 
 function obt_excerpt_length() {
 	return 24;
