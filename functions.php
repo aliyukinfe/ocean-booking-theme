@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'OBT_VERSION', '1.1.1' );
+define( 'OBT_VERSION', '1.1.2' );
 
 function obt_setup() {
 	load_theme_textdomain( 'ocean-booking', get_template_directory() . '/languages' );
@@ -80,6 +80,84 @@ function obt_menu_fallback( $args = array() ) {
 			continue;
 		}
 		echo '<li><a href="' . esc_url( $link[1] ) . '">' . esc_html( $link[0] ) . '</a></li>';
+	}
+	echo '</ul>';
+}
+
+function obt_get_current_language_code() {
+	if ( function_exists( 'pll_current_language' ) ) {
+		return pll_current_language( 'slug' );
+	}
+
+	if ( defined( 'ICL_LANGUAGE_CODE' ) ) {
+		return ICL_LANGUAGE_CODE;
+	}
+
+	$query_lang = sanitize_key( wp_unslash( $_GET['lang'] ?? '' ) );
+	if ( $query_lang ) {
+		return $query_lang;
+	}
+
+	return substr( determine_locale(), 0, 2 );
+}
+
+function obt_language_switcher() {
+	$current = obt_get_current_language_code();
+
+	if ( function_exists( 'pll_the_languages' ) ) {
+		$languages = pll_the_languages( array( 'raw' => 1 ) );
+		if ( $languages ) {
+			echo '<ul class="language-switcher-list">';
+			foreach ( $languages as $language ) {
+				$slug = sanitize_key( $language['slug'] ?? '' );
+				echo '<li><a class="' . esc_attr( $slug === $current ? 'is-current' : '' ) . '" href="' . esc_url( $language['url'] ?? home_url( '/' ) ) . '">' . esc_html( strtoupper( $slug ) ) . '</a></li>';
+			}
+			echo '</ul>';
+			return;
+		}
+	}
+
+	$wpml_languages = apply_filters( 'wpml_active_languages', null, array( 'skip_missing' => 0 ) );
+	if ( is_array( $wpml_languages ) && $wpml_languages ) {
+		echo '<ul class="language-switcher-list">';
+		foreach ( $wpml_languages as $language ) {
+			$code = sanitize_key( $language['language_code'] ?? '' );
+			echo '<li><a class="' . esc_attr( ! empty( $language['active'] ) ? 'is-current' : '' ) . '" href="' . esc_url( $language['url'] ?? home_url( '/' ) ) . '">' . esc_html( strtoupper( $code ) ) . '</a></li>';
+		}
+		echo '</ul>';
+		return;
+	}
+
+	if ( function_exists( 'trp_custom_language_switcher' ) ) {
+		$languages = trp_custom_language_switcher();
+		if ( is_array( $languages ) && $languages ) {
+			echo '<ul class="language-switcher-list">';
+			foreach ( $languages as $language ) {
+				$code = sanitize_key( $language['short_language_name'] ?? $language['language_code'] ?? '' );
+				$url  = $language['current_page_url'] ?? $language['url'] ?? home_url( '/' );
+				echo '<li><a class="' . esc_attr( $code === $current ? 'is-current' : '' ) . '" href="' . esc_url( $url ) . '">' . esc_html( strtoupper( $code ) ) . '</a></li>';
+			}
+			echo '</ul>';
+			return;
+		}
+	}
+
+	if ( shortcode_exists( 'language-switcher' ) ) {
+		echo do_shortcode( '[language-switcher]' );
+		return;
+	}
+
+	$fallback_languages = array(
+		'en' => __( 'English', 'ocean-booking' ),
+		'de' => __( 'German', 'ocean-booking' ),
+		'fr' => __( 'French', 'ocean-booking' ),
+		'it' => __( 'Italian', 'ocean-booking' ),
+		'es' => __( 'Spanish', 'ocean-booking' ),
+	);
+
+	echo '<ul class="language-switcher-list language-switcher-fallback">';
+	foreach ( $fallback_languages as $code => $label ) {
+		echo '<li><a class="' . esc_attr( $code === $current ? 'is-current' : '' ) . '" href="' . esc_url( add_query_arg( 'lang', $code ) ) . '" title="' . esc_attr( $label ) . '">' . esc_html( strtoupper( $code ) ) . '</a></li>';
 	}
 	echo '</ul>';
 }

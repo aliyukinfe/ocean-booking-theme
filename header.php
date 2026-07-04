@@ -27,6 +27,9 @@
 			<a href="#" aria-label="<?php esc_attr_e( 'Instagram', 'ocean-booking' ); ?>">IG</a>
 			<a href="#" aria-label="<?php esc_attr_e( 'Facebook', 'ocean-booking' ); ?>">FB</a>
 			<a href="#" aria-label="<?php esc_attr_e( 'YouTube', 'ocean-booking' ); ?>">YT</a>
+			<div class="top-language-switcher" aria-label="<?php esc_attr_e( 'Language switcher', 'ocean-booking' ); ?>">
+				<?php obt_language_switcher(); ?>
+			</div>
 		</div>
 	</div>
 </div>
@@ -52,16 +55,7 @@
 			?>
 		</nav>
 		<div class="language-switcher" aria-label="<?php esc_attr_e( 'Language switcher', 'ocean-booking' ); ?>">
-			<?php
-			if ( function_exists( 'pll_the_languages' ) ) {
-				pll_the_languages( array( 'dropdown' => 1 ) );
-			} else {
-				?>
-				<span><?php esc_html_e( 'EN', 'ocean-booking' ); ?></span>
-				<span><?php esc_html_e( 'DE', 'ocean-booking' ); ?></span>
-				<?php
-			}
-			?>
+			<?php obt_language_switcher(); ?>
 		</div>
 		<a class="header-cta" href="<?php echo esc_url( get_post_type_archive_link( 'event' ) ); ?>"><?php esc_html_e( 'Book Now', 'ocean-booking' ); ?></a>
 	</div>
