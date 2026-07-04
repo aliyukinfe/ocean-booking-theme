@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'OBT_VERSION', '1.1.5' );
+define( 'OBT_VERSION', '1.1.6' );
 
 function obt_setup() {
 	load_theme_textdomain( 'ocean-booking', get_template_directory() . '/languages' );

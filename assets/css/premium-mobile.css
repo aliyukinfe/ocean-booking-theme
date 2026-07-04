@@ -32,6 +32,28 @@
 		gap: 10px !important;
 	}
 
+	.brand {
+		min-width: 0 !important;
+		max-width: calc(100vw - 92px) !important;
+		font-size: .98rem !important;
+		line-height: 1.05 !important;
+	}
+
+	.brand span {
+		display: inline-flex !important;
+		align-items: center !important;
+		white-space: nowrap !important;
+		overflow: hidden !important;
+		text-overflow: ellipsis !important;
+	}
+
+	.brand span::before {
+		flex: 0 0 42px !important;
+		width: 42px !important;
+		height: 42px !important;
+		margin-right: 10px !important;
+	}
+
 	.brand,
 	.site-header.is-transparent .brand,
 	.site-header.has-scrolled .brand,
@@ -62,10 +84,7 @@
 	}
 
 	.language-switcher {
-		display: inline-flex !important;
-		max-width: 138px;
-		overflow-x: auto;
-		padding: 0 6px;
+		display: none !important;
 	}
 
 	.header-cta {
@@ -307,10 +326,19 @@
 	}
 
 	.stats-float {
-		grid-template-columns: 1fr !important;
+		grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
 	}
 
 	.stats-float div {
-		min-height: 72px !important;
+		min-height: 76px !important;
+		padding: 10px 6px !important;
+	}
+
+	.stats-float strong {
+		font-size: 1.08rem !important;
+	}
+
+	.stats-float span {
+		font-size: .66rem !important;
 	}
 }
